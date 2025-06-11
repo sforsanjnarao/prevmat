@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String        @id @default(uuid())
+  clerkUserId   String    @unique // clerk user id
+  email       String        @unique
+  name        String?
+  vaultPassword String? // Argon2 hash of the user's main vault password
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  userApps    UserApp[]
+  fakeDataPresets FakeDataPreset[]
+  vaultItems VaultItem[]
+  userBreaches UserBreach[]
+
+}
+
+
+model App {
+  id        String    @id @default(uuid())
+  name      String
+  url       String?
+  hasKnownBreaches   Boolean?  // null = unchecked, true = breached, false = checked & clear
+  lastBreachCheck    DateTime? // When was this domain last checked against the API?
+  breachCount     Int?      // Optional: Store the number of breaches found
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userApps  UserApp[]
+}
+
+model UserApp {
+  id          String   @id @default(uuid()) // ID for the specific user-app link
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   // Foreign key to User
+  app         App      @relation(fields: [appId], references: [id])
+  appId       String   // Foreign key to App
+  emailUsed   String?  // Email the user shared with this app
+  phoneUsed   String?  // Phone number shared
+  locationAccess Boolean @default(false) // Did they grant location access?
+  notes       String?  // User's notes about this specific app/data
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, appId]) // Prevents tracking the same app multiple times per user
+}
+
+model FakeDataPreset {
+  id        String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  presetName String
+  email     String?
+  phone     String?
+  pan       String?
+  aadhar    String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VaultItem {
+  id             String   @id @default(uuid())
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  website        String   // Website name/URL (unencrypted for display/lookup)
+  encryptedData  String   // Stores the Base64 encoded AES-CBC (or GCM) ciphertext of the combined data (username, password, notes, etc.)
+  iv             String   // Stores the Base64 encoded Initialization Vector (IV)
+  salt           String   // Stores the Base64 encoded salt used for PBKDF2 key derivation
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Optional index if you query often by userId and website
+  // @@index([userId, website])
+}
+
+model DataBreach {
+  id             String        @id @default(uuid())
+  name           String        @unique
+  breachDate     DateTime
+  description    String?
+  dataTypesLeaked String?
+  pwnedCount     Int?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  userBreaches   UserBreach[]
+}
+
+model UserBreach {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  dataBreach DataBreach @relation(fields: [dataBreachId], references: [id])
+  dataBreachId String
+  emailCompromised String  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, dataBreachId], name: "userId_dataBreachId") //Prevents duplicate entries
+}
