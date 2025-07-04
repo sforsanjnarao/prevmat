@@ -1,4 +1,3 @@
-// components/AppTracker.jsx
 
 "use client";
 

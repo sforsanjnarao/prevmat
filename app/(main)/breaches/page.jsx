@@ -2,7 +2,7 @@ import PublicEmailChecker from "./_components/BreachCheckerPublic";
 
 // --- SEO ---
 // Use generateMetadata if you need async data, otherwise export metadata directly
-export const metadata = {
+export const metadata = { 
   // **Title Tag:** Specific to this page's function
   title: 'Data Breach Check - See If Your Email Was Exposed',
   // **Meta Description:** Action-oriented description for this page
@@ -21,3 +21,6 @@ export default function DataBreachPage() {
     </div>
   );
 }
+
+// difference between booth the export are 1. This is a special export used by Next.js in the App Router.
+//2.This is the actual React component for the page UI.

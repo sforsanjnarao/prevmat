@@ -39,6 +39,7 @@ const PublicEmailChecker = () => {
     const [breachData, setBreachData] = useState(null);
     const [error, setError] = useState(""); // Keep this for internal logic if needed, or rely on toast
     const [apiError, setApiError] = useState(null); // Specific state for API errors to pass to the new component
+    const [hasSearched, setHasSearched] = useState(false);
 
     const handleCheck = async () => {
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
@@ -59,7 +60,7 @@ const PublicEmailChecker = () => {
             });
 
             if (response.status === 404 || response.data.Error === "Not found") {
-                setBreachData([]);
+                setBreachData([]); //empty if breach is not found
                 toast.success("No breaches found for this email.");
             } else if (response.data.Error) {
                 throw new Error(response.data.Error); // Let the catch block handle API-specific errors
@@ -90,13 +91,11 @@ const PublicEmailChecker = () => {
             setLoading(false);
         }
     };
-    const [hasSearched, setHasSearched] = useState(false);
 
 
     return (
         <Card className="w-full max-w-xl mx-auto">
             <CardHeader>
-                {/* ... CardTitle, CardDescription ... */}
                  <div className="flex items-center gap-3">
                     <div className="p-2 bg-muted rounded-full">
                         <Shield className="h-5 w-5 text-primary" />
@@ -111,6 +110,7 @@ const PublicEmailChecker = () => {
             </CardHeader>
             <CardContent className="space-y-6 pt-4 pb-6">
                 <div className="flex space-x-2">
+                    
                     {/* ... Input and Button ... */}
                      <Input
                         type="email"
