@@ -30,23 +30,23 @@ model User {
 }
 
 
-model App {
-  id        String    @id @default(uuid())
-  name      String
-  url       String?
-  hasKnownBreaches   Boolean?  // null = unchecked, true = breached, false = checked & clear
-  lastBreachCheck    DateTime? // When was this domain last checked against the API?
-  breachCount     Int?      // Optional: Store the number of breaches found
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  userApps  UserApp[]
-}
+// model App {
+//   id        String    @id @default(uuid())
+//   name      String
+//   url       String?
+//   hasKnownBreaches   Boolean?  // null = unchecked, true = breached, false = checked & clear
+//   lastBreachCheck    DateTime? // When was this domain last checked against the API?
+//   breachCount     Int?      // Optional: Store the number of breaches found
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+//   userApps  UserApp[]
+// }
 
 model UserApp {
   id          String   @id @default(uuid()) // ID for the specific user-app link
   user        User     @relation(fields: [userId], references: [id])
   userId      String   // Foreign key to User
-  app         App      @relation(fields: [appId], references: [id])
+  // app         App      @relation(fields: [appId], references: [id])
   appId       String   // Foreign key to App
   emailUsed   String?  // Email the user shared with this app
   phoneUsed   String?  // Phone number shared

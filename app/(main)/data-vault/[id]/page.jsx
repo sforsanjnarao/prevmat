@@ -99,6 +99,8 @@ const VaultDetails = () => {
             }
             setDecryptedData(null);
             setIsVerified(false);
+            setVaultPassword('');
+
         } finally {
             setIsUnlocking(false);
         }

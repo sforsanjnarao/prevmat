@@ -20,7 +20,7 @@ const Vault = () => {
     const fetchVaultItems = async () => {
       try {
         const res = await fetch("/api/vault");
-        if (!res.ok) throw new Error("Failed to fetch vault items");
+        if (!res.ok) throw new Error("Failed to fetch vault items"); 
         const data = await res.json();
         setVaultItems(data);
         setFilteredItems(data);
