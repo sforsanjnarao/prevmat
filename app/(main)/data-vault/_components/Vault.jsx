@@ -37,7 +37,7 @@ const Vault = () => {
 
   useEffect(() => {
     const filtered = vaultItems.filter((item) =>
-      item.website.toLowerCase().includes(searchQuery.toLowerCase())
+      item.website.toLowerCase().includes(searchQuery.toLowerCase()) 
     );
     setFilteredItems(filtered);
   }, [searchQuery, vaultItems]);
@@ -51,8 +51,13 @@ const Vault = () => {
 
   return (
     <Card className="w-full max-w-3xl mx-auto mt-10">
-      <CardHeader>
+      {/* <CardHeader className="">
         <CardTitle>{vaultItems.length} sites and apps</CardTitle>
+      </CardHeader> */}
+      <CardHeader className="border-b pb-2 mb-2">
+        <CardTitle className="text-lg font-semibold text-gray-200">
+          {vaultItems.length} sites and apps
+        </CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-6">

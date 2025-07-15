@@ -11,7 +11,8 @@ const prisma = new PrismaClient();
 export async function GET(req, { params }) {
   try {
     const { userId: clerkUserId } = getAuth(req);
-    const { id: vaultId } = await params; // Get ID from route parameters
+    const { id: vaultId } = await params; // Get ID from route parameters //const vaultId = params.id;
+    //const { id: vaultId } = params; 
 
     if (!clerkUserId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -51,7 +52,7 @@ export async function GET(req, { params }) {
     console.error(`Error fetching vault item ${params.id}:`, error);
     return NextResponse.json({ error: "Failed to fetch vault item" }, { status: 500 });
   } finally {
-    await prisma.$disconnect();
+    await prisma.$disconnect(); //disconnected from prisma
   }
 }
 
