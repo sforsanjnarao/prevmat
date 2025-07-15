@@ -3,11 +3,9 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
-import { LockKeyhole, ChevronRightIcon } from 'lucide-react';
-import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { LockKeyhole, ChevronRightIcon,Loader2, Search } from 'lucide-react';
 const Vault = () => {
   const [vaultItems, setVaultItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
