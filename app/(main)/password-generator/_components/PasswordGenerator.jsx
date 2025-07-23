@@ -9,12 +9,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from "@/components/ui/slider";
-import { Copy, RefreshCw, KeyRound, CheckCircle2, AlertCircle, Lock } from 'lucide-react'; // Added Lock icon
+import { Copy, RefreshCw, KeyRound, CheckCircle2, AlertCircle, Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
-import Link from 'next/link'; // Import Link for navigation
+import Link from 'next/link'; 
 
 const PasswordGenerator = () => {
-  // ... (existing state variables: password, passwordLength, includeUppercase, etc.) ...
   const [password, setPassword] = useState('');
   const [passwordLength, setPasswordLength] = useState(16);
   const [includeUppercase, setIncludeUppercase] = useState(true);
@@ -33,7 +32,6 @@ const PasswordGenerator = () => {
   };
 
   const calculateStrength = (pwd) => {
-    // ... (calculateStrength function remains the same) ...
     let score = 0;
     if (pwd.length >= 8) score++;
     if (pwd.length >= 12) score++;
@@ -50,7 +48,6 @@ const PasswordGenerator = () => {
   };
 
   const generatePassword = () => {
-    // ... (generatePassword function remains the same) ...
     let charset = '';
     if (includeUppercase) charset += characterSets.uppercase;
     if (includeLowercase) charset += characterSets.lowercase;
@@ -79,12 +76,11 @@ const PasswordGenerator = () => {
   }, [passwordLength, includeUppercase, includeLowercase, includeNumbers, includeSymbols]);
 
   const handleCopyToClipboard = () => {
-    // ... (handleCopyToClipboard function remains the same) ...
     if (!password) {
         toast.error('Nothing to copy!');
         return;
     }
-    navigator.clipboard.writeText(password)
+    navigator.clipboard.writeText(password) //navigator.clipboard.writeText(password), the copy action
       .then(() => {
         toast.success('Password copied to clipboard!');
         setCopied(true);
@@ -99,7 +95,6 @@ const PasswordGenerator = () => {
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        {/* ... (CardHeader content remains the same) ... */}
         <div className="flex items-center gap-3">
             <div className="p-2 bg-muted rounded-full">
                 <KeyRound className="h-5 w-5 text-primary" />
@@ -113,7 +108,6 @@ const PasswordGenerator = () => {
       <CardContent className="space-y-6">
         {/* Generated Password Display */}
         <div className="relative">
-          {/* ... (Input and inline buttons remain the same) ... */}
            <Input
             type="text"
             value={password}
@@ -165,7 +159,6 @@ const PasswordGenerator = () => {
 
         {/* Options (Password Length, Character Types) */}
         <div className="space-y-4 pt-2"> {/* Added pt-2 for spacing */}
-          {/* ... (Slider and Checkboxes remain the same) ... */}
            <div>
             <Label htmlFor="passwordLength" className="text-sm font-medium">
               Password Length: {passwordLength}
@@ -174,7 +167,7 @@ const PasswordGenerator = () => {
               id="passwordLength"
               min={8}
               max={64}
-              step={1}
+              step={2}
               value={[passwordLength]}
               onValueChange={(value) => setPasswordLength(value[0])}
               className="mt-2"
