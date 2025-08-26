@@ -14,7 +14,6 @@ import ErrorMessageWithExternalLink from './ErrorMessageWithExternalLink'; // <-
 
 // Helper component to display individual breach details (remains the same)
 const BreachDetailItem = ({ breach }) => (
-    // ... (no changes here) ...
     <AccordionItem value={breach.name || breach.breachID || Math.random().toString()} key={breach.name || breach.breachID || Math.random().toString()}>
         <AccordionTrigger className="text-sm hover:no-underline">
             {breach.name} ({breach.date || 'N/A'})
@@ -52,7 +51,7 @@ const PublicEmailChecker = () => {
         setBreachData(null);
         setError("");
         setApiError(null); // Reset API error
-
+        setEmail('')
         try {
             const response = await axios.get(`https://api.xposedornot.com/v1/breach-analytics?email=${encodeURIComponent(email)}`, {
                 headers: { 'Accept': 'application/json' },
@@ -65,7 +64,6 @@ const PublicEmailChecker = () => {
             } else if (response.data.Error) {
                 throw new Error(response.data.Error); // Let the catch block handle API-specific errors
             } else if (response.data.ExposedBreaches?.breaches_details?.length > 0) {
-                // ... (formatting logic remains the same) ...
                 const formattedBreaches = response.data.ExposedBreaches.breaches_details.map((detail) => ({
                     name: detail.breach,
                     date: detail.xposed_date

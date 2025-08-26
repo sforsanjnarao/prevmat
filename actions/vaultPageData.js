@@ -18,6 +18,6 @@ export async function getVaultPageData() {
   });
 
   return {
-    isPasswordSet: !!dbUser?.vaultPassword,
+    isPasswordSet: !!dbUser?.vaultPassword, //making string boolean
   };
 }
