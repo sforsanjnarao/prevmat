@@ -2,8 +2,8 @@
 import Link from 'next/link'
 import { Button } from './ui/button'
 import Image from 'next/image'
-import { TypeAnimation } from 'react-type-animation'; // For animated text
-import { motion } from 'framer-motion'; // Added for animations
+import { TypeAnimation } from 'react-type-animation'; 
+import { motion } from 'framer-motion'; 
 
 
 const HeroSection = () => {

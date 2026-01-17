@@ -60,6 +60,7 @@ const HowItWorksChat = () => {
     startChat();
     return clearAllTimeouts;
   }, []);
+
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -105,7 +106,6 @@ const HowItWorksChat = () => {
     <section className="py-8 md:py-16 bg-transparent">
       <div className="container mx-auto px-8 md:px-6">
         <div className="flex flex-col md:flex-row items-center justify-center md:justify-between">
-          {/* Left Section (Text) */}
           <div className="md:w-1/2 mb-8 md:mb-0 text-center md:text-left">
             <h2 className="text-2xl md:text-4xl font-bold text-center mb-4">
               How Privmat Works (In a Nutshell)
@@ -115,7 +115,6 @@ const HowItWorksChat = () => {
             </p>
           </div>
 
-          {/* Right Section (Chat Card) */}
           <div className="md:w-1/2 w-full">
             <Card className="shadow-lg rounded-lg overflow-hidden bg-white dark:bg-slate-950 relative">
               <CardContent

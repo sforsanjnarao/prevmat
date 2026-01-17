@@ -27,7 +27,7 @@ const Footer = () => {
 
         {/* Tagline */}
         <p className="text-xs text-muted-foreground/80">
-          Your Privacy Matters.
+          Your Privacy Matters by SANJANA RAO.
         </p>
 
         {/* Navigation Links */}

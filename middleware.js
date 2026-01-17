@@ -1,7 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-// Define which routes are protected
 const isProtectedRoute = createRouteMatcher([
   '/data-vault(.*)',
   '/fake-data(.*)',
@@ -10,21 +9,21 @@ const isProtectedRoute = createRouteMatcher([
   '/apps(.*)',
 ]);
 
+
+//like jwt but with clerk
 export default clerkMiddleware(async (auth, req) => {
-  // Await the auth function to get the user data
-  const { userId } = await auth();  // Make sure this is awaited properly
+  const { userId } = await auth(); 
 
   console.log("🔐 Clerk middleware: userId =", userId);
 
-  // Check if the route is protected and user is not authenticated
   if (!userId && isProtectedRoute(req)) {
     console.log("🔒 Redirecting to sign-in...");
 
-    const { redirectToSignIn } = await auth(); // This will handle redirect to sign-in if needed
+    const { redirectToSignIn } = await auth(); 
     return redirectToSignIn();
   }
 
-  return NextResponse.next();  // Continue with the request if authenticated
+  return NextResponse.next();  
 });
 
 export const config = {
