@@ -1,7 +1,7 @@
 // app/api/vault-password/route.ts
 
 import { getAuth } from "@clerk/nextjs/server";
-import prisma from "@/lib/generated/prisma";
+import prisma from "@/lib/prisma";
 import argon2 from "argon2";
 import { NextRequest, NextResponse } from "next/server";
 
