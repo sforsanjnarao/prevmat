@@ -1,8 +1,24 @@
 -- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "clerkUserId" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "name" TEXT,
+    "vaultPassword" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "App" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "url" TEXT,
+    "hasKnownBreaches" BOOLEAN,
+    "lastBreachCheck" TIMESTAMP(3),
+    "breachCount" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -45,13 +61,11 @@ CREATE TABLE "VaultItem" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "website" TEXT NOT NULL,
-    "username" TEXT NOT NULL,
-    "encryptedPassword" TEXT NOT NULL,
+    "encryptedData" TEXT NOT NULL,
     "iv" TEXT NOT NULL,
     "salt" TEXT NOT NULL,
-    "notes" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "updatedAt" TIMESTAMP(3),
 
     CONSTRAINT "VaultItem_pkey" PRIMARY KEY ("id")
 );
@@ -75,15 +89,24 @@ CREATE TABLE "UserBreach" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "dataBreachId" TEXT NOT NULL,
-    "emailCompromised" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "emailCompromised" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
 
     CONSTRAINT "UserBreach_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_clerkUserId_key" ON "User"("clerkUserId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "UserApp_userId_appId_key" ON "UserApp"("userId", "appId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "DataBreach_name_key" ON "DataBreach"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UserBreach_userId_dataBreachId_key" ON "UserBreach"("userId", "dataBreachId");

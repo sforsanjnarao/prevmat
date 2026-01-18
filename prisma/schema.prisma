@@ -5,14 +5,18 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
   output   = "../lib/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
+
+
+
+
+
 
 model User {
   id          String        @id @default(uuid())
@@ -30,23 +34,23 @@ model User {
 }
 
 
-// model App {
-//   id        String    @id @default(uuid())
-//   name      String
-//   url       String?
-//   hasKnownBreaches   Boolean?  // null = unchecked, true = breached, false = checked & clear
-//   lastBreachCheck    DateTime? // When was this domain last checked against the API?
-//   breachCount     Int?      // Optional: Store the number of breaches found
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime  @updatedAt
-//   userApps  UserApp[]
-// }
+model App {
+  id        String    @id @default(uuid())
+  name      String
+  url       String?
+  hasKnownBreaches   Boolean?  // null = unchecked, true = breached, false = checked & clear
+  lastBreachCheck    DateTime? // When was this domain last checked against the API?
+  breachCount     Int?      // Optional: Store the number of breaches found
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userApps  UserApp[]
+}
 
 model UserApp {
   id          String   @id @default(uuid()) // ID for the specific user-app link
   user        User     @relation(fields: [userId], references: [id])
   userId      String   // Foreign key to User
-  // app         App      @relation(fields: [appId], references: [id])
+  app         App      @relation(fields: [appId], references: [id])
   appId       String   // Foreign key to App
   emailUsed   String?  // Email the user shared with this app
   phoneUsed   String?  // Phone number shared
@@ -81,7 +85,7 @@ model VaultItem {
   iv             String   // Stores the Base64 encoded Initialization Vector (IV)
   salt           String   // Stores the Base64 encoded salt used for PBKDF2 key derivation
   createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  updatedAt      DateTime? @updatedAt
 
   // Optional index if you query often by userId and website
   // @@index([userId, website])
@@ -106,8 +110,8 @@ model UserBreach {
   dataBreach DataBreach @relation(fields: [dataBreachId], references: [id])
   dataBreachId String
   emailCompromised String  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   @@unique([userId, dataBreachId], name: "userId_dataBreachId") //Prevents duplicate entries
 }

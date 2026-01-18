@@ -1,12 +1,10 @@
 // app/api/breaches/check-my-email/route.js
 
 import { auth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@/lib/generated/prisma"; // Assuming default generation path
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { checkUser } from "@/lib/checkUser"; // Import the checkUser function
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 // Using POST as it triggers an action (check & potentially update DB)
 export async function POST(req) {

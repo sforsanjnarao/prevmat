@@ -1,11 +1,9 @@
 // pages/api/apps/[userAppId].js
 
 import { getAuth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@/lib/generated/prisma";
 import { calculateAppRiskScore } from '@/lib/riskCalculator'; // Import calculator
 
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 export default async function handler(req, res) {
   const { userAppId } = req.query; // Get the ID from the URL path

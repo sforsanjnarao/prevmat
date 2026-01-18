@@ -1,26 +1,27 @@
 // pages/api/dashboard/summary.js
 
 import { getAuth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@/lib/generated/prisma";
 import { calculateAppRiskScore, calculateOverallRisk } from '@/lib/riskCalculator'; // Your risk calculator
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
+console.log('in api:',process.env.DATABASE_URL)
+// console.log('with prisma',prisma)
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     let dbUserId = null;
 
     try {
-      // --- 1. Authenticate and Ensure User Exists in DB ---
       const { userId: clerkUserId } = getAuth(req);
+
       if (!clerkUserId) {
         return res.status(401).json({ error: "Unauthorized" });
       }
 
-       // ✅ Convert Clerk ID to DB userId
        const dbUser = await prisma.user.findUnique({
-        where: { clerkUserId: clerkUserId },
+        where: { clerkUserId: clerkUserId },  
     });
+    console.log('dbUser:',dbUser)
 
       if (!dbUser?.id) {
         console.error("GET /api/dashboard/summary: User sync failed for Clerk ID:", clerkUserId);
@@ -28,7 +29,6 @@ export default async function handler(req, res) {
       }
       dbUserId = dbUser.id;
 
-      // --- 2. Perform Database Queries in Parallel ---
       const [
         trackedAppsCount,
         vaultItemsCount,
@@ -43,6 +43,7 @@ export default async function handler(req, res) {
           include: { app: true } // Include app data for risk calculation
         })
       ]);
+      
 
       // --- 3. Calculate Overall Risk Score ---
       // Calculate individual scores first if not already done
@@ -60,6 +61,7 @@ export default async function handler(req, res) {
         overallRisk, // Includes score and level
         // You could add more here, like recent breaches, highest risk app name etc.
       };
+      console.log('summaryData:',summaryData)
 
       res.status(200).json(summaryData);
 

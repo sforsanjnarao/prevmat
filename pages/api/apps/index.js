@@ -1,13 +1,15 @@
 // pages/api/apps/index.js
 
 import { getAuth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@/lib/generated/prisma";
 import { extractDomain } from "@/lib/urlUtil";
 import axios from 'axios'; // Make sure axios is imported
 import { calculateAppRiskScore, calculateOverallRisk } from '@/lib/riskCalculator'; // Import calculators
 
 
-const prisma = new PrismaClient();
+
+import { prisma } from "@/lib/prisma";
+console.log('in api:',process.env.DATABASE_URL)
+console.log('with prisma',prisma)
 
 export default async function handler(req, res) {
   // --- GET Request Logic (from previous step) ---

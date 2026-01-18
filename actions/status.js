@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 export async function getVaultPasswordStatus(userId) {
     console.log("Checking Vault password status for userId:", userId);
@@ -9,7 +9,7 @@ export async function getVaultPasswordStatus(userId) {
   }
 
   try {
-    const user = await db.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         clerkUserId: userId,
       },

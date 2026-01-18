@@ -1,11 +1,10 @@
 // app/api/vault/route.js
 import { NextResponse } from 'next/server';
 import { getAuth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@/lib/generated/prisma"; // Adjust path if needed
 import { verify } from "argon2"; // Ensure argon2 is installed
 import { vaultEncrypt } from "@/lib/vault-crypto"; // Use the updated encryption wrapper
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 // GET /api/vault - List vault items (non-sensitive data)
 export async function GET(req) {

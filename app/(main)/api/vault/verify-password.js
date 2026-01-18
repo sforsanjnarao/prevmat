@@ -2,7 +2,7 @@
 
 import { getAuth } from '@clerk/nextjs/server';
 import argon2 from 'argon2';
-import { db } from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const user = await db.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { clerkUserId },
     });
 

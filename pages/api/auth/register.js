@@ -1,9 +1,9 @@
 // pages/api/auth/register.js
 
-import { PrismaClient } from "@prisma/client";
 import { getAuth } from "@clerk/nextjs/server";
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
+
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
         },
       });
 
-      res.status(201).json({ message: "User registered successfully" });
+      res.status(201).json({ message: "User registered successfully" ,user});
     } catch (error) {
       console.error("Error creating user:", error);
       res.status(500).json({ error: "Failed to create user" });

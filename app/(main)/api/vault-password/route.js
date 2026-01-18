@@ -1,7 +1,7 @@
 // app/api/vault-password/route.ts
 
 import { getAuth } from "@clerk/nextjs/server";
-import {db} from "@/lib/prisma";
+import {prisma} from "@/lib/prisma";
 import argon2 from "argon2";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -18,7 +18,7 @@ export async function POST(req) {
 
     const hashedVaultPassword = await argon2.hash(newPassword);
 
-    await db.user.update({
+    await prisma.user.update({
       where: { clerkUserId: userId },
       data: { vaultPassword: hashedVaultPassword },
     });

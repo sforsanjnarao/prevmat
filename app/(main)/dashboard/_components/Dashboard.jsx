@@ -30,7 +30,7 @@ export default function Dashboard() {
     setError(null);
     fetch("/api/dashboard/summary")
       .then((res) => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status} && ${res}`);
         return res.json();
       })
       .then(data => setSummaryData(data))
