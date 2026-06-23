@@ -30,6 +30,13 @@ Privmat is a modern privacy dashboard designed to empower users by providing vis
     *   Check if your email addresses have been involved in known data breaches using the XposedOrNot API.
     *   Stores details of breaches affecting the user.
     *   Displays breach information clearly.
+*   **✨ AI Breach Explainer:**
+    *   "Explain with AI" on any breach result turns raw breach data into a plain-English summary, a severity rating, and a checklist of recommended actions.
+    *   Available on both the public scan and your stored breach history.
+*   **🤖 Privacy Assistant (Chatbot):**
+    *   Ask natural-language questions about your own footprint — "Which apps have my phone number?", "Have I been breached?", "What's my riskiest app?".
+    *   A LangChain.js tool-calling agent answers using read-only, user-scoped tools (tracked apps, stored breaches, a live XposedOrNot scan, and your computed risk summary).
+    *   Tools are bound to your authenticated user id, so the assistant can only ever read your own data.
 
 
 ## 💻 Tech Stack
@@ -44,6 +51,7 @@ Privmat is a modern privacy dashboard designed to empower users by providing vis
 *   **API (Breaches):** XposedOrNot
 *   **API (Temp Email):** MailTM
 *   **Data Generation:** Faker.js
+*   **AI / LLM:** LangChain.js + OpenAI (breach explainer & privacy assistant)
 *   **Deployment:** (vercel)
 
 ## 🚀 Getting Started
@@ -56,6 +64,7 @@ Follow these instructions to set up the project locally for development.
 *   npm, yarn, or pnpm
 *   PostgreSQL Database instance
 *   Clerk Account (for API keys)
+*   OpenAI API key (for the AI breach explainer & privacy assistant)
 *   Git
 
 ### Installation & Setup
@@ -91,7 +100,16 @@ Follow these instructions to set up the project locally for development.
 
         # Optional: XposedOrNot API Key (if required by their terms later)
         # XPOSEDORNOT_API_KEY=your_xposedornot_api_key
+
+        # OpenAI API Key — required for the AI features
+        # (breach explainer + privacy assistant)
+        OPENAI_API_KEY=sk-*************************
+
+        # Optional: override the model (defaults to gpt-4o-mini)
+        # OPENAI_MODEL=gpt-4o-mini
         ```
+
+    *   A `.env.example` is included in the repo listing the AI-related variables.
 
 4.  **Set up the database:**
     *   Ensure your PostgreSQL server is running.
@@ -122,7 +140,8 @@ Follow these instructions to set up the project locally for development.
 3.  **Track Apps:** Navigate to the "Apps Tracking" section to add applications you use and the data you've shared.
 4.  **Generate Fake Data:** Use the "Fake Data Generator" to create disposable information for non-essential signups.
 5.  **Data Vault:** Store sensitive credentials securely. Remember your vault password if implemented!
-6.  **Check Breaches:** Use the "Data Breaches" section to check your emails against known breaches.
+6.  **Check Breaches:** Use the "Data Breaches" section to check your emails against known breaches, then hit **Explain with AI** on a result for a plain-English breakdown and next steps.
+7.  **Privacy Assistant:** Open **Tools → Privacy Assistant** and ask questions about your own data (e.g. "Which apps have my phone number?").
 
 ## 🗺️ Roadmap (Future Features)
 
