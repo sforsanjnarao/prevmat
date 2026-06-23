@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import toast from 'react-hot-toast';
 import { RefreshCw } from 'lucide-react'; // Icon for refresh button
+import BreachExplainer from './BreachExplainer'; // AI plain-English explainer
 
 const MyBreaches = () => {
     const [breachHistory, setBreachHistory] = useState([]);
@@ -102,6 +103,7 @@ const MyBreaches = () => {
                                             </ul>
                                             <p className="text-sm text-gray-500 mt-2">Checked on: {new Date(breach.addedToHistoryAt).toLocaleDateString()}</p>
                                             <p className="text-sm text-gray-500">Email Checked: {breach.emailChecked}</p>
+                                            <BreachExplainer breach={breach} />
                                         </AccordionContent>
                                     </AccordionItem>
                                 ))}

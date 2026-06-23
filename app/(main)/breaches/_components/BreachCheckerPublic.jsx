@@ -11,6 +11,7 @@ import toast from 'react-hot-toast';
 import { Loader2, Shield, ShieldAlert, ShieldCheck, Search } from "lucide-react";
 import axios from 'axios';
 import ErrorMessageWithExternalLink from './ErrorMessageWithExternalLink'; // <-- Import the new component
+import BreachExplainer from './BreachExplainer'; // AI plain-English explainer
 
 // Helper component to display individual breach details (remains the same)
 const BreachDetailItem = ({ breach }) => (
@@ -27,6 +28,7 @@ const BreachDetailItem = ({ breach }) => (
                     <li>Data types not specified.</li>
                 }
             </ul>
+            <BreachExplainer breach={breach} />
         </AccordionContent>
     </AccordionItem>
 );
