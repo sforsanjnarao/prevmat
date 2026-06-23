@@ -32,6 +32,13 @@ export async function POST(req) {
         // --- 2. Call XposedOrNot Breach Analytics API ---
         const apiUrl = `https://api.xposedornot.com/v1/breach-analytics?email=${encodeURIComponent(userEmail)}`;
         const xposedResponse = await axios.get(apiUrl, {
+            headers: {
+                Accept: "application/json",
+                // XposedOrNot's WAF 403s bare server-side requests; without a
+                // browser-like UA this call fails and zero breaches get stored.
+                "User-Agent":
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+            },
             validateStatus: (status) => (status >= 200 && status < 300) || status === 404,
         });
 

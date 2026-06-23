@@ -3,7 +3,7 @@ import React from 'react'
 import Image from 'next/image'
 import { Button } from "./ui/button";
 import { useTheme } from "next-themes"
-import {Fingerprint, ShieldQuestion, LayoutDashboard,ChevronDown, Moon, Sun, TrendingUp, BracesIcon, FolderLock, KeyRound } from "lucide-react"
+import {Fingerprint, ShieldQuestion, LayoutDashboard,ChevronDown, Moon, Sun, TrendingUp, BracesIcon, FolderLock, KeyRound, Sparkles } from "lucide-react"
 import Link from 'next/link'
 
 import {
@@ -94,6 +94,12 @@ export const Header =  ({user}) => {
                   <Link href="/breaches" className="flex items-center gap-2">
                     <ShieldQuestion className="h-4 w-4" />
                     Data Breaches
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/assistant" className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    Privacy Assistant
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
